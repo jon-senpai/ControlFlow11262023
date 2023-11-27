@@ -1,0 +1,46 @@
+const PI = 3.1415;
+const maxCapacity = PI * 5 * 5;
+let plantCount = 20;
+
+function calculateArea(radius) {
+  return PI * radius * radius;
+}
+
+function predictPlantGrowth(weeks) {
+  for (let week = 1; week <= weeks; week++) {
+    plantCount *= 2;
+
+    if (plantCount > 0.8 * maxCapacity) {
+      console.log(`Week ${week}: Prune the plants to avoid exceeding the capacity.`);
+      break;
+    } else if (plantCount > 0.5 * maxCapacity) {
+      console.log(`Week ${week}: Monitor the plant growth; it's within an acceptable range.`);
+    } else {
+      console.log(`Week ${week}: Plant more if possible.`);
+    }
+  }
+}
+
+// Part 1: Predict plant growth after 1, 2, and 3 weeks
+predictPlantGrowth(1);
+predictPlantGrowth(2);
+predictPlantGrowth(3);
+
+// Part 2: Determine additional space required for 100 plants after 10 weeks without pruning
+plantCount = 100;
+predictPlantGrowth(10);
+const additionalSpaceRequired = plantCount * 0.8 - maxCapacity;
+const expandedRadius = Math.sqrt((maxCapacity + additionalSpaceRequired) / PI);
+console.log(`\nAdditional space required after 10 weeks: ${additionalSpaceRequired.toFixed(2)} square meters`);
+console.log(`Expanded garden radius: ${expandedRadius.toFixed(2)} meters`);
+
+// Part 3: Error handling
+try {
+  plantCount = 100;
+  predictPlantGrowth(10);
+  if (plantCount * 0.8 > maxCapacity) {
+    throw new Error("Not enough space to accommodate the plants. Please prune or expand the garden.");
+  }
+} catch (error) {
+  console.error(error.message);
+}
